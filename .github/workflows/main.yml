@@ -1,17 +1,27 @@
-name: Python package
-on: [push]
+name: Git Bisect Workflow
+
+on:
+  push:
+    branches:
+      - main  # Déclenche ce workflow après chaque push sur la branche principale
+
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  bisect:
+    runs-on: ubuntu-latest  # Utilisation de l'image Ubuntu pour le job
+
     steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.9"
-      - name: Install packages
-        run: pip install -r requirements.txt
-      - name: Run tests
-        run: python manage.py test
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt  # Installe les dépendances nécessaires
+
+    - name: Run git bisect script
+      run: |
+        python myscript.py  # Exécute ton script Python
